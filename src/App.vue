@@ -14,10 +14,9 @@ export default {
   data() {
     return {
       showSearch: true,
-      country: null,
       weatherData: {
         country: '',
-        hourly: [],
+        hours: [],
       },
       isLoading: false,
     };
@@ -39,11 +38,9 @@ export default {
         const weatherRes = await fetch(
           `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m`
         );
-        const weatherData = await weatherRes.json();
-        this.weatherData.country = country;
-        this.weatherData.hourly = weatherData.hourly;
-
-        console.log(weatherData.hourly);
+        this.weatherData = await weatherRes.json();
+        this.weatherData.country = results[0].country;
+        this.weatherData.hours = weatherRes.data;
         this.showSearch = false;
       } catch (err) {
         this.showSearch = true;
